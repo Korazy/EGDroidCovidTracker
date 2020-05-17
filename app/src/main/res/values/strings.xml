@@ -2,6 +2,14 @@
     <string name="app_name">Covid Tracker</string>
     <string name="title_activity_home">HomeActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="api_key_header">x-rapidapi-key</string>
+    <string name="api_key">0a2e95c3b7mshc355c82512925abp1aa6a3jsnf9674bedd603</string>
+
+    <string name="api_host_header">x-rapidapi-host</string>
+    <string name="api_host">covid-193.p.rapidapi.com</string>
+
+    <string name="api_url_statistics">https://covid-193.p.rapidapi.com/statistics</string>
+    <string name="api_url_countries">https://covid-193.p.rapidapi.com/countries</string>
+    <string name="api_url_history">https://covid-193.p.rapidapi.com/history</string>
+
 </resources>
