@@ -8,6 +8,7 @@
     <string name="api_host_header">x-rapidapi-host</string>
     <string name="api_host">covid-193.p.rapidapi.com</string>
 
+    <string name="api_url_base">https://covid-193.p.rapidapi.com/</string>
     <string name="api_url_statistics">https://covid-193.p.rapidapi.com/statistics</string>
     <string name="api_url_countries">https://covid-193.p.rapidapi.com/countries</string>
     <string name="api_url_history">https://covid-193.p.rapidapi.com/history</string>

@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".View.WorldFragment">
 
+    <RelativeLayout
+        android:id="@+id/loadingPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+    </RelativeLayout>
+
     <TextView
         android:text="New"
         android:id="@+id/tv_new"
@@ -15,6 +26,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:paddingLeft="10dp"
         android:id="@+id/tv_newAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,6 +42,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_new" />
 
     <TextView
+        android:paddingLeft="10dp"
         android:id="@+id/tv_activeAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,6 +58,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_active"/>
 
     <TextView
+        android:paddingLeft="10dp"
         android:id="@+id/tv_criticalAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,6 +74,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_critical" />
 
     <TextView
+        android:paddingLeft="10dp"
         android:id="@+id/tv_recoveredAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -75,10 +90,44 @@
         app:layout_constraintTop_toBottomOf="@id/tv_recovered" />
 
     <TextView
+        android:paddingLeft="10dp"
         android:id="@+id/tv_totalAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_recoveredAmount"
         app:layout_constraintStart_toEndOf="@+id/tv_total"/>
+
+    <TextView
+        android:text="Deaths New"
+        android:id="@+id/tv_deathsNew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_total" />
+
+    <TextView
+        android:paddingLeft="10dp"
+        android:id="@+id/tv_deathsNewAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_totalAmount"
+        app:layout_constraintStart_toEndOf="@+id/tv_deathsNew"/>
+
+    <TextView
+        android:text="Deaths Total"
+        android:id="@+id/tv_deathsTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_deathsNew" />
+
+    <TextView
+        android:paddingLeft="10dp"
+        android:id="@+id/tv_deathsTotalAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_deathsNewAmount"
+        app:layout_constraintStart_toEndOf="@+id/tv_deathsTotal"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
