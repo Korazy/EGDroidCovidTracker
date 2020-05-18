@@ -12,8 +12,6 @@ import com.korazy.covidtracker.Model.Country;
 import com.korazy.covidtracker.Network.RequestManager;
 import com.korazy.covidtracker.R;
 
-import java.util.List;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -46,7 +44,7 @@ public class WorldFragment extends Fragment implements onCovidReceivedCallback {
         totalDeaths = getView().findViewById(R.id.tv_deathsTotalAmount);
 
         RequestManager covidRequest = new RequestManager(this);
-        covidRequest.fetchStatistics(RequestManager.RequestType.STATISTICS, "all");
+        covidRequest.fetchData(RequestManager.RequestType.STATISTICS, "all");
 
 
         super.onActivityCreated(savedInstanceState);
@@ -70,8 +68,4 @@ public class WorldFragment extends Fragment implements onCovidReceivedCallback {
         Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onComplete() {
-
-    }
 }

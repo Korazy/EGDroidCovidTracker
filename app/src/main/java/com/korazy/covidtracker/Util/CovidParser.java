@@ -8,6 +8,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CovidParser {
 
     private Country country;
@@ -42,5 +45,19 @@ public class CovidParser {
         country.setNewDeaths(deaths.getString("new"));
         country.setTotalDeaths(deaths.getInt("total"));
 
+    }
+
+    public List<String> parseCountries(JSONArray jsonCountries){
+        List<String> countries = new ArrayList<>();
+        try {
+            for (int i = 0; i < jsonCountries.length(); i++) {
+                String country = jsonCountries.getString(i);
+                //Log.d("country", "parseCountries: "+country);
+                countries.add(country);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return countries;
     }
 }

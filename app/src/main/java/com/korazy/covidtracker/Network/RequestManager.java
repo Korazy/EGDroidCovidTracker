@@ -6,6 +6,7 @@ import android.util.Log;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.korazy.covidtracker.Interface.onCountriesReceivedCallback;
 import com.korazy.covidtracker.Interface.onCovidReceivedCallback;
 import com.korazy.covidtracker.MainApplication;
 import com.korazy.covidtracker.Model.Country;
@@ -19,19 +20,30 @@ import org.json.JSONObject;
 public class RequestManager implements JSONObjectRequestListener {
 
     private RequestType requestType;
-    private onCovidReceivedCallback fragmentCallback;
+    private onCovidReceivedCallback covidCallback;
+    private onCountriesReceivedCallback countriesCallback;
 
     public RequestManager(onCovidReceivedCallback callback) {
-        this.fragmentCallback = callback;
+        this.covidCallback = callback;
     }
 
-    public void fetchStatistics(RequestType request, String countryName) {
+    public RequestManager(onCountriesReceivedCallback callback) {
+        this.countriesCallback = callback;
+    }
+
+
+    public void fetchData(RequestType request, String countryName) {
         Resources resource = MainApplication.getContext().getResources();
         requestType = request;
         switch (request) {
             case HISTORY:
                 break;
             case COUNTRIES:
+                AndroidNetworking.get(resource.getString(R.string.api_url_countries))
+                        .addHeaders(resource.getString(R.string.api_host_header), resource.getString(R.string.api_host))
+                        .addHeaders(resource.getString(R.string.api_key_header), resource.getString(R.string.api_key))
+                        .build()
+                        .getAsJSONObject(this);
                 break;
             case STATISTICS:
                 AndroidNetworking.get(resource.getString(R.string.api_url_statistics) + "?country={country}")
@@ -52,17 +64,18 @@ public class RequestManager implements JSONObjectRequestListener {
         CovidParser cp = new CovidParser();
         JSONObject jsonObject = response;
         try {
+            JSONArray jsonResponse = jsonObject.getJSONArray("response");
             switch (requestType) {
                 case HISTORY:
                     break;
                 case COUNTRIES:
+                    countriesCallback.setAvailCountries(cp.parseCountries(jsonResponse));
                     break;
                 case STATISTICS:
-                    JSONArray jsonResponse = jsonObject.getJSONArray("response");
                     country = cp.parseStatistics(jsonResponse);
+                    covidCallback.setCovidData(country);
                     break;
             }
-            fragmentCallback.setCovidData(country);
         } catch (JSONException e) {
             e.printStackTrace();
         }
