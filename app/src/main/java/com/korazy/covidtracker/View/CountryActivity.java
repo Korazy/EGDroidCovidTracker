@@ -1,8 +1,15 @@
 package com.korazy.covidtracker.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +31,8 @@ public class CountryActivity extends AppCompatActivity implements onCovidReceive
     private TextView totalDeaths;
 
     private String country;
+
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +56,29 @@ public class CountryActivity extends AppCompatActivity implements onCovidReceive
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        this.menu = menu;
+        SharedPreferences sharedPref = getSharedPreferences("countries", Context.MODE_PRIVATE);
+        if(sharedPref.contains(country))
+            menu.getItem(0).setIcon(getDrawable(R.drawable.ic_favorite_black_24dp));
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_favorite) {
+            toggleFavorite();
+            Toast.makeText(CountryActivity.this, "Favorite Toggled!", Toast.LENGTH_LONG).show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void setCovidData(Country country) {
         findViewById(R.id.loadingPanel).setVisibility(View.GONE);
         newCases.setText(country.getNewCases());
@@ -61,5 +93,17 @@ public class CountryActivity extends AppCompatActivity implements onCovidReceive
     @Override
     public void showError(String errorMessage) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    public void toggleFavorite(){
+        SharedPreferences sharedPref = getSharedPreferences("countries", Context.MODE_PRIVATE);
+        if(sharedPref.contains(country)){
+            sharedPref.edit().remove(country).commit();
+            menu.getItem(0).setIcon(getDrawable(R.drawable.ic_favorite_border_black_24dp));
+        } else {
+            sharedPref.edit().putString(country, country).commit();
+            menu.getItem(0).setIcon(getDrawable(R.drawable.ic_favorite_black_24dp));
+        }
+
     }
 }
