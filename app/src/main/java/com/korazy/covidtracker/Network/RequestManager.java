@@ -36,8 +36,6 @@ public class RequestManager implements JSONObjectRequestListener {
         Resources resource = MainApplication.getContext().getResources();
         requestType = request;
         switch (request) {
-            case HISTORY:
-                break;
             case COUNTRIES:
                 AndroidNetworking.get(resource.getString(R.string.api_url_countries))
                         .addHeaders(resource.getString(R.string.api_host_header), resource.getString(R.string.api_host))
@@ -45,8 +43,16 @@ public class RequestManager implements JSONObjectRequestListener {
                         .build()
                         .getAsJSONObject(this);
                 break;
+            case COUNTRY:
+                AndroidNetworking.get(resource.getString(R.string.api_url_countries)+"?search={country}")
+                        .addPathParameter("country", countryName)
+                        .addHeaders(resource.getString(R.string.api_host_header), resource.getString(R.string.api_host))
+                        .addHeaders(resource.getString(R.string.api_key_header), resource.getString(R.string.api_key))
+                        .build()
+                        .getAsJSONObject(this);
+                break;
             case STATISTICS:
-                AndroidNetworking.get(resource.getString(R.string.api_url_statistics) + "?country={country}")
+                AndroidNetworking.get(resource.getString(R.string.api_url_statistics))
                         .addPathParameter("country", countryName)
                         .addHeaders(resource.getString(R.string.api_host_header), resource.getString(R.string.api_host))
                         .addHeaders(resource.getString(R.string.api_key_header), resource.getString(R.string.api_key))
@@ -57,20 +63,32 @@ public class RequestManager implements JSONObjectRequestListener {
         return;
     }
 
+    public void fetchCountryHistory(String countryName, String date){
+        requestType = RequestType.HISTORY;
+        Resources resource = MainApplication.getContext().getResources();
+        AndroidNetworking.get(resource.getString(R.string.api_url_history))
+                .addPathParameter("country", countryName)
+                .addPathParameter("day", date)
+                .addHeaders(resource.getString(R.string.api_host_header), resource.getString(R.string.api_host))
+                .addHeaders(resource.getString(R.string.api_key_header), resource.getString(R.string.api_key))
+                .build()
+                .getAsJSONObject(this);
+    }
+
     @Override
     public void onResponse(JSONObject response) {
         Log.i("request_success", response.toString());
-        Country country = new Country();
+        Country country;
         CovidParser cp = new CovidParser();
         JSONObject jsonObject = response;
         try {
             JSONArray jsonResponse = jsonObject.getJSONArray("response");
             switch (requestType) {
-                case HISTORY:
-                    break;
+                case COUNTRY:
                 case COUNTRIES:
                     countriesCallback.setAvailCountries(cp.parseCountries(jsonResponse));
                     break;
+                case HISTORY:
                 case STATISTICS:
                     country = cp.parseStatistics(jsonResponse);
                     covidCallback.setCovidData(country);
@@ -90,7 +108,7 @@ public class RequestManager implements JSONObjectRequestListener {
         Log.e("request_error", "onError: " + anError.getMessage());
     }
 
-    public enum RequestType {STATISTICS, COUNTRIES, HISTORY}
+    public enum RequestType {STATISTICS, COUNTRIES, HISTORY, COUNTRY}
 
 
 }

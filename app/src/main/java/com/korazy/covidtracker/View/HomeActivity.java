@@ -2,18 +2,13 @@ package com.korazy.covidtracker.View;
 
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+import com.korazy.covidtracker.Adapter.TabAdapter;
+import com.korazy.covidtracker.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
-
-import android.view.View;
-
-import com.google.android.material.tabs.TabLayout;
-import com.korazy.covidtracker.Adapter.TabAdapter;
-import com.korazy.covidtracker.R;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -33,8 +28,9 @@ public class HomeActivity extends AppCompatActivity {
         statTabs = findViewById(R.id.statisticsTabs);
 
         setupTabs();
-
     }
+
+    //TODO check for internet connection
 
     private void setupTabs() {
         tabAdapter = new TabAdapter(getSupportFragmentManager());
