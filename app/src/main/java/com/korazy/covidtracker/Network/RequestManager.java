@@ -1,6 +1,9 @@
 package com.korazy.covidtracker.Network;
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.androidnetworking.AndroidNetworking;
@@ -18,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RequestManager implements JSONObjectRequestListener {
+    public enum RequestType {STATISTICS, COUNTRIES, HISTORY, COUNTRY}
 
     private RequestType requestType;
     private onCovidReceivedCallback covidCallback;
@@ -107,8 +111,5 @@ public class RequestManager implements JSONObjectRequestListener {
         Log.e("request_error", "onError: " + anError.getErrorCode());
         Log.e("request_error", "onError: " + anError.getMessage());
     }
-
-    public enum RequestType {STATISTICS, COUNTRIES, HISTORY, COUNTRY}
-
 
 }

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blongho.country_data.World;
 import com.korazy.covidtracker.R;
 import com.korazy.covidtracker.View.CountryActivity;
 
@@ -49,16 +50,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
-        //TODO Add country flags
         public ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.tv_countryName);
+            imageView = itemView.findViewById(R.id.iv_countryFlag);
         }
 
         void bind(final String country){
+            //TODO to be refactored for more efficiency,
+            // find better flags library by converting country name to code then retreive flag
             textView.setText(country);
+            imageView.setImageResource(World.getFlagOf(country));
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

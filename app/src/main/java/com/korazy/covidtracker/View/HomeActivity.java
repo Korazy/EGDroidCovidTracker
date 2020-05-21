@@ -1,6 +1,11 @@
 package com.korazy.covidtracker.View;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.korazy.covidtracker.Adapter.TabAdapter;
@@ -40,6 +45,7 @@ public class HomeActivity extends AppCompatActivity {
 
         statPager.setAdapter(tabAdapter);
         statTabs.setupWithViewPager(statPager);
+
     }
 
 }

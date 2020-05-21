@@ -49,6 +49,7 @@ public class CountriesFragment extends Fragment implements onCountriesReceivedCa
         covidRequest.fetchData(RequestManager.RequestType.COUNTRIES, "");
     }
 
+    //TODO improve search by searching through already existing items rather than a new network request
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);

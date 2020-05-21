@@ -29,7 +29,7 @@ public class SavedFragment extends Fragment implements Updateable {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_countries, container, false);
+        return inflater.inflate(R.layout.fragment_saved, container, false);
     }
 
     @Override
@@ -77,11 +77,22 @@ public class SavedFragment extends Fragment implements Updateable {
     }
 
     public void setAvailCountries(List<String> countries) {
+        if (countries.isEmpty()) {
+            getView().findViewById(R.id.tv_emptyFav).setVisibility(View.VISIBLE);
+        } else {
+            getView().findViewById(R.id.tv_emptyFav).setVisibility(View.GONE);
+        }
         mAdapter.setData(countries);
     }
 
     @Override
     public void update() {
         setAvailCountries(getFavoriteCountries());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        update();
     }
 }

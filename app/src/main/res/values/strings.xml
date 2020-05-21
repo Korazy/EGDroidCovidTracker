@@ -14,4 +14,6 @@
 
     <string name="search_title">Country Search</string>
     <string name="search_hint">Enter country name</string>
+
+    <string name="empty_favs">No Favorite Countries Yet!</string>
 </resources>

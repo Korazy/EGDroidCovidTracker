@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.androidnetworking.AndroidNetworking;
+import com.blongho.country_data.World;
 
 public class MainApplication extends Application {
 
@@ -13,7 +14,9 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         AndroidNetworking.initialize(getApplicationContext());
+        World.init(getApplicationContext());
         mContext = this;
+
     }
 
     public static Context getContext(){
