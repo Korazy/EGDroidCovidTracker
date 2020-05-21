@@ -21,5 +21,9 @@
         <item name="android:background">#009688</item>
     </style>
 
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
 
 </resources>

@@ -1,9 +1,6 @@
 package com.korazy.covidtracker.Network;
 
-import android.content.Context;
 import android.content.res.Resources;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.androidnetworking.AndroidNetworking;
@@ -21,12 +18,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RequestManager implements JSONObjectRequestListener {
-    public enum RequestType {STATISTICS, COUNTRIES, HISTORY, COUNTRY}
-
     private RequestType requestType;
     private onCovidReceivedCallback covidCallback;
     private onCountriesReceivedCallback countriesCallback;
-
     public RequestManager(onCovidReceivedCallback callback) {
         this.covidCallback = callback;
     }
@@ -35,7 +29,7 @@ public class RequestManager implements JSONObjectRequestListener {
         this.countriesCallback = callback;
     }
 
-
+    //TODO cache network responses
     public void fetchData(RequestType request, String countryName) {
         Resources resource = MainApplication.getContext().getResources();
         requestType = request;
@@ -48,7 +42,7 @@ public class RequestManager implements JSONObjectRequestListener {
                         .getAsJSONObject(this);
                 break;
             case COUNTRY:
-                AndroidNetworking.get(resource.getString(R.string.api_url_countries)+"?search={country}")
+                AndroidNetworking.get(resource.getString(R.string.api_url_countries) + "?search={country}")
                         .addPathParameter("country", countryName)
                         .addHeaders(resource.getString(R.string.api_host_header), resource.getString(R.string.api_host))
                         .addHeaders(resource.getString(R.string.api_key_header), resource.getString(R.string.api_key))
@@ -67,7 +61,7 @@ public class RequestManager implements JSONObjectRequestListener {
         return;
     }
 
-    public void fetchCountryHistory(String countryName, String date){
+    public void fetchCountryHistory(String countryName, String date) {
         requestType = RequestType.HISTORY;
         Resources resource = MainApplication.getContext().getResources();
         AndroidNetworking.get(resource.getString(R.string.api_url_history))
@@ -111,5 +105,7 @@ public class RequestManager implements JSONObjectRequestListener {
         Log.e("request_error", "onError: " + anError.getErrorCode());
         Log.e("request_error", "onError: " + anError.getMessage());
     }
+
+    public enum RequestType {STATISTICS, COUNTRIES, HISTORY, COUNTRY}
 
 }

@@ -16,6 +16,10 @@ import com.korazy.covidtracker.Model.Country;
 import com.korazy.covidtracker.Network.RequestManager;
 import com.korazy.covidtracker.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -28,6 +32,7 @@ public class WorldFragment extends Fragment implements onCovidReceivedCallback {
     private TextView criticalCases;
     private TextView newDeaths;
     private TextView totalDeaths;
+    private TextView date;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,6 +51,7 @@ public class WorldFragment extends Fragment implements onCovidReceivedCallback {
         criticalCases = getView().findViewById(R.id.tv_criticalAmount);
         newDeaths = getView().findViewById(R.id.tv_deathsNewAmount);
         totalDeaths = getView().findViewById(R.id.tv_deathsTotalAmount);
+        date = getView().findViewById(R.id.tv_date);
         Log.i("test", "onActivityCreated: here");
 
         if (!checkConnectivitity())
@@ -61,14 +67,24 @@ public class WorldFragment extends Fragment implements onCovidReceivedCallback {
     @Override
     public void setCovidData(Country country) {
         getView().findViewById(R.id.loadingPanel).setVisibility(View.GONE);
-        newCases.setText(country.getNewCases());
+        if(country.getNewCases()=="null"){
+            newCases.setText("0");
+        } else
+            newCases.setText(country.getNewCases());
         totalCases.setText(country.getTotalCases() + "");
         recoveredCases.setText(country.getRecoveredCases() + "");
         activeCases.setText(country.getActiveCases() + "");
         criticalCases.setText(country.getCriticalCases() + "");
-        newDeaths.setText(country.getNewDeaths());
+        if(country.getNewDeaths()=="null")
+            newDeaths.setText("0");
+        else
+            newDeaths.setText(country.getNewDeaths());
         totalDeaths.setText(country.getTotalDeaths() + "");
 
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        String formattedDate = df.format(c);
+        date.setText(formattedDate);
     }
 
     @Override

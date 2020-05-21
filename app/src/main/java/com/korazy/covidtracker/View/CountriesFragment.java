@@ -66,12 +66,15 @@ public class CountriesFragment extends Fragment implements onCountriesReceivedCa
             public boolean onQueryTextSubmit(String s) {
                 //TODO prevent search when less than 3 characters
                 Log.i("query_submit", "onQueryTextSubmit: Text submitted " + s);
-                covidRequest.fetchData(RequestManager.RequestType.COUNTRY, s);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
+                if (s.length() < 3)
+                    covidRequest.fetchData(RequestManager.RequestType.COUNTRIES, "");
+                else
+                    covidRequest.fetchData(RequestManager.RequestType.COUNTRY, s);
                 return false;
             }
         });

@@ -3,21 +3,26 @@ package com.korazy.covidtracker.View;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blongho.country_data.World;
 import com.korazy.covidtracker.Interface.onCovidReceivedCallback;
 import com.korazy.covidtracker.Model.Country;
 import com.korazy.covidtracker.Network.RequestManager;
 import com.korazy.covidtracker.R;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,11 +37,15 @@ public class CountryActivity extends AppCompatActivity implements onCovidReceive
     private TextView criticalCases;
     private TextView newDeaths;
     private TextView totalDeaths;
+    private TextView date;
+    private ImageView flag;
 
     private String country;
 
     private Menu menu;
     private RequestManager covidRequest;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +63,17 @@ public class CountryActivity extends AppCompatActivity implements onCovidReceive
         criticalCases = findViewById(R.id.tv_criticalAmount);
         newDeaths = findViewById(R.id.tv_deathsNewAmount);
         totalDeaths = findViewById(R.id.tv_deathsTotalAmount);
+        date = findViewById(R.id.tv_date);
+        flag = findViewById(R.id.iv_countryFlag);
 
         country = getIntent().getStringExtra("country");
         countryName.setText(country);
 
         covidRequest = new RequestManager(this);
         covidRequest.fetchData(RequestManager.RequestType.STATISTICS, country);
+
+
+        flag.setImageResource(World.getFlagOf(this.country));
     }
 
     @Override
@@ -93,6 +107,7 @@ public class CountryActivity extends AppCompatActivity implements onCovidReceive
 
     private void showDatePickerDialog() {
         DatePickerDialog datePicker = new DatePickerDialog(this,
+                R.style.DialogTheme,
                 this,
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
@@ -116,6 +131,13 @@ public class CountryActivity extends AppCompatActivity implements onCovidReceive
         else
             newDeaths.setText(country.getNewDeaths());
         totalDeaths.setText(country.getTotalDeaths() + "");
+
+
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        String formattedDate = df.format(c);
+        date.setText(formattedDate);
+
     }
 
     @Override
