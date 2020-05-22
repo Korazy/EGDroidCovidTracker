@@ -112,6 +112,7 @@ public class CountryActivity extends AppCompatActivity implements onCovidReceive
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        datePicker.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePicker.show();
     }
 
@@ -159,7 +160,6 @@ public class CountryActivity extends AppCompatActivity implements onCovidReceive
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        //TODO check if date greater than today
         findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
         String m = (1+month) +"";
         String d = day + "";
